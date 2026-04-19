@@ -40,12 +40,31 @@ void serial_monitor_task(void *pvParameters)
             switch (cmd)
             {
             case 'i':
+            case 'I':
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
+                im_sinc();
+                break;
             case 'd':
+            case 'D':
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
+                deg_sinc();
+                break;
             case 'r':
+                ram_sinc();
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
+                break;
+            case 'R':
+                reset_sinc();
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
+                break;
+            case 'g':
+            case 'G':
+                reset_sinc();
                 ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
                 break;
 
             case 'p':
+            case 'P':
                 ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
                 print_flag = !print_flag;
                 break;
@@ -67,8 +86,9 @@ void serial_monitor_task(void *pvParameters)
                     ESP_LOGI(TAG, "Valor 1: %.2f", v1);
                     ESP_LOGI(TAG, "Valor 2: %.2f", v2);
 
-                    snprintf(str1, sizeof(str1), "%.1fHz|%.1fs", v1, 1.0f / v1);
-                    snprintf(str2, sizeof(str2), "%.0fHz|%.3fms", v2, 1.0f / v2);
+                    snprintf(str1, sizeof(str1), "a%.1f", v1);
+                    snprintf(str2, sizeof(str2), "%.0fHz|%.3fs", 1.0f / v2, v2);
+                    config_hz_ts(v1, 1.0f / v2);
 
                     ssd1306_clear();
                     ssd1306_print_str(0, 17, "IFCE: Luan", false);
@@ -76,9 +96,18 @@ void serial_monitor_task(void *pvParameters)
                     ssd1306_print_str(0, 37, str2, false);
                     ssd1306_display();
                 }
-                else if (cmd >= '1' && cmd <= '4')
+                int val;
+                char extra;
+                if (sscanf(buffer, "%d %c", &val, &extra) == 1)
                 {
-                    config_item(cmd - '0');
+                    if (val >= 1 && val <= 14)
+                    {
+                        config_item(val);
+                    }
+                    else if (val >= 101 && val <= 114)
+                    {
+                        config_item(val);
+                    }
                 }
                 else
                 {
@@ -95,7 +124,8 @@ void serial_monitor_task(void *pvParameters)
 
 void mz(void *pvParameters)
 {
-    periodo = (int64_t)(1000000.0); // segundos → µs
+    periodo = (int64_t)(get_ts() * 1e6 + 0.5); // s → µs
+    int64_t t_ant = esp_timer_get_time();
 
     while (1)
     {
@@ -103,10 +133,14 @@ void mz(void *pvParameters)
 
         if ((Time - t_ant) >= periodo)
         {
+            t_ant += periodo; // 🔹 mantém sincronismo
+
             led_on();
-            vTaskDelay(1);
+            func_mz();
+            get_printf();
             led_off();
         }
+
         vTaskDelay(1);
     }
 }
@@ -128,8 +162,8 @@ void app_main(void)
 
     ssd1306_clear();
     ssd1306_print_str(0, 17, "IFCE: Luan", false);
-    ssd1306_print_str(0, 27, "10Hz|0.1s", false);
-    ssd1306_print_str(0, 37, "10Hz|0.1s", false);
+    ssd1306_print_str(0, 27, "a=1.5", false);
+    ssd1306_print_str(0, 37, "T=0.1s", false);
     ssd1306_display();
 
     // ================================

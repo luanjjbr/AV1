@@ -1,0 +1,167 @@
+item 4
+
+sys_c =
+ 
+   1
+  ---
+  s^3
+ 
+Continuous-time transfer function.
+Model Properties
+
+sys_zoh =
+ 
+  0.0001667 z^2 + 0.0006667 z + 0.0001667
+  ---------------------------------------
+           z^3 - 3 z^2 + 3 z - 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_tus =
+ 
+  0.000125 z^3 + 0.000375 z^2 + 0.000375 z + 0.000125
+  ---------------------------------------------------
+                 z^3 - 3 z^2 + 3 z - 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_imp =
+ 
+   0.005 z^2 + 0.005 z
+  ---------------------
+  z^3 - 3 z^2 + 3 z - 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+>> 
+
+// ======================================================================================================================
+item 8
+sys_c =
+ 
+      1.5
+  -----------
+  s^2 + 1.5 s
+ 
+Continuous-time transfer function.
+Model Properties
+
+sys_zoh =
+ 
+  0.007139 z + 0.006791
+  ----------------------
+  z^2 - 1.861 z + 0.8607
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_tus =
+ 
+  0.003488 z^2 + 0.006977 z + 0.003488
+  ------------------------------------
+         z^2 - 1.86 z + 0.8605
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_imp =
+ 
+         0.1393 z
+  ----------------------
+  z^2 - 1.861 z + 0.8607
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+>> 
+
+// ======================================================================================================================
+item 12
+
+sys_c =
+ 
+      s
+  ----------
+  s^2 + 2.25
+ 
+Continuous-time transfer function.
+Model Properties
+
+sys_zoh =
+ 
+  0.09963 z - 0.09963
+  -------------------
+   z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_tus =
+ 
+  0.04972 z^2 - 0.04972
+  ---------------------
+    z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_imp =
+ 
+   z^2 - 0.9888 z
+  -----------------
+  z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+>> 
+
+// ======================================================================================================================
+item 11
+
+sys_c =
+ 
+     1.5
+  ----------
+  s^2 + 2.25
+ 
+Continuous-time transfer function.
+Model Properties
+
+sys_zoh =
+ 
+  0.007486 z + 0.007486
+  ---------------------
+    z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_tus =
+ 
+  0.003729 z^2 + 0.007458 z + 0.003729
+  ------------------------------------
+           z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
+Model Properties
+
+sys_imp =
+ 
+      0.1494 z
+  -----------------
+  z^2 - 1.978 z + 1
+ 
+Sample time: 0.1 seconds
+Discrete-time transfer function.
