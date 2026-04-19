@@ -14,6 +14,8 @@
 #include "pwm_driver.h"
 #include "ssd1306.h"
 
+static const char *TAG = "APP_MAIN";
+
 bool print_flag = true;
 
 int64_t t_ant = 0;
@@ -40,11 +42,11 @@ void serial_monitor_task(void *pvParameters)
             case 'i':
             case 'd':
             case 'r':
-                ESP_LOGI("SERIAL", ">>> %s <<<", buffer);
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
                 break;
 
             case 'p':
-                ESP_LOGI("SERIAL", ">>> %s <<<", buffer);
+                ESP_LOGI(TAG, "SERIAL>>> %s <<<", buffer);
                 print_flag = !print_flag;
                 break;
 
@@ -56,14 +58,14 @@ void serial_monitor_task(void *pvParameters)
                 {
                     if (v1 == 0.0f || v2 == 0.0f)
                     {
-                        ESP_LOGW("SERIAL", "Divisao por zero!");
+                        ESP_LOGW(TAG, "Divisao por zero!");
                         break;
                     }
 
                     periodo = 1000000;
 
-                    ESP_LOGI("SERIAL", "Valor 1: %.2f", v1);
-                    ESP_LOGI("SERIAL", "Valor 2: %.2f", v2);
+                    ESP_LOGI(TAG, "Valor 1: %.2f", v1);
+                    ESP_LOGI(TAG, "Valor 2: %.2f", v2);
 
                     snprintf(str1, sizeof(str1), "%.1fHz|%.1fs", v1, 1.0f / v1);
                     snprintf(str2, sizeof(str2), "%.0fHz|%.3fms", v2, 1.0f / v2);
@@ -74,9 +76,13 @@ void serial_monitor_task(void *pvParameters)
                     ssd1306_print_str(0, 37, str2, false);
                     ssd1306_display();
                 }
+                else if (cmd >= '1' && cmd <= '4')
+                {
+                    config_item(cmd - '0');
+                }
                 else
                 {
-                    ESP_LOGI("SERIAL", "Formato invalido: %s", buffer);
+                    ESP_LOGI(TAG, "Formato invalido: %s", buffer);
                 }
                 break;
             }
