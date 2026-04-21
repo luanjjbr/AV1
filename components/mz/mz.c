@@ -34,14 +34,8 @@ void config_item(int value_mz)
     {
     case 4:
         reset_sinc();
-        // ============================
-        // item 4
-        // num_inv = [T^2/2 T^2/2 0];
-        // den_inv = [1 -3 3 -1];
 
-        // ============================
-
-        ESP_LOGI(TAG, "item %s: %i : m(nT)= 0,5 * (n * T)^2 ", "4", value_mz);
+        ESP_LOGI(TAG, "item %d: m(nT)= 0.5 * (n * T)^2", 4);
 
         // ============================
         // numerador
@@ -59,6 +53,13 @@ void config_item(int value_mz)
         den[2] = 3;
         den[3] = -1;
 
+        ESP_LOGI(TAG,
+                 "item 104:\n"
+                 "num = [%.6f %.6f %.6f %.6f]\n"
+                 "den = [%.6f %.6f %.6f %.6f]\n",
+                 num[0], num[1], num[2], num[3],
+                 den[0], den[1], den[2], den[3]);
+
         break;
     case 104:
         reset_sinc();
@@ -69,25 +70,26 @@ void config_item(int value_mz)
 
         // ============================
 
-        ESP_LOGI(TAG, "item %s: %i : m(nT)= 0,5 * (n * T)^2 ", "4", value_mz);
+        ESP_LOGI(TAG, "item %s: %i : m(nT)= 0,5 * (n * T)^2 ", "104", value_mz);
 
         // ============================
         // numerador
         // ============================
         num[0] = 0;
-        num[1] = T * T * T / 6;
-        num[2] = 4 * T * T * T / 6;
-        num[3] = T * T * T / 6;
+        num[1] = (T * T * T) / 6;
+        num[2] = (4 * (T * T * T)) / 6;
+        num[3] = (T * T * T) / 6;
 
         // ============================
         // denominador
         // ============================
-        den[0] = 1;
-        den[1] = -3;
-        den[2] = 3;
-        den[3] = -1;
+        den[0] = -1;
+        den[1] = 3;
+        den[2] = -3;
+        den[3] = 1;
 
         break;
+
     case 8:
         reset_sinc();
         // ============================
@@ -321,10 +323,10 @@ void func_mz(void)
     switch (value_mz_item)
     {
     case 4:
-        y[0] = num[1] * u[1] - den[1] * y[1] - den[2] * y[2];
+        y[0] = num[2] * u[2] + num[1] * u[1] + num[0] * u[0] - den[1] * y[1] - den[2] * y[2] - den[3] * y[3];
         break;
     case 104:
-        y[0] = num[1] * u[1] + num[2] * u[2] + num[3] * u[3] - den[1] * y[1] - den[2] * y[2] - den[3] * y[3];
+        y[0] = num[1] * u[1] + num[2] * u[2] - den[1] * y[1] - den[2] * y[2] - den[3] * y[3];
         break;
 
     case 8:
