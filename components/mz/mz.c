@@ -1,7 +1,7 @@
 #include "mz.h"
 
 #include <stdio.h>
-#include "button.h"
+#include "Button.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -282,6 +282,8 @@ void config_item(int value_mz)
 
 void deslocar_dados(float array[])
 {
+    // Preserve the full history because some recurrences use index 3.
+    array[3] = array[2];
     array[2] = array[1];
     array[1] = array[0];
 }
@@ -358,7 +360,11 @@ void func_mz(void)
 
 void get_printf(void) { printf(">Entrada:%f\n>Saida_Y:%f\n", u[0], y[0]); }
 
+float get_a(void) { return a; }
+
 float get_ts(void) { return T; }
+
+int get_model_item(void) { return value_mz_item; }
 
 void reset_sinc(void)
 {
@@ -394,7 +400,8 @@ void ram_sinc(void)
 
 void config_hz_ts(float a_config, float T_config)
 {
+    // Update both runtime parameters before recomputing the coefficients.
     a = a_config;
-    a = T_config;
+    T = T_config;
     config_item(value_mz_item);
 }

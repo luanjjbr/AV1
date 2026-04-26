@@ -39,6 +39,7 @@ uint8_t ssd1306_logo[8][64] = {
 
 static i2c_ssd1306_handle_t i2c_ssd1306;
 static i2c_master_bus_handle_t i2c_master_bus;
+static bool ssd1306_ready = false;
 
 /* I2C Master */
 static const i2c_master_bus_config_t i2c_master_bus_config = {
@@ -59,27 +60,53 @@ static const i2c_ssd1306_config_t i2c_ssd1306_config = {
     .wise = SSD1306_BOTTOM_TO_TOP};
 
 
-void init_ssd1306(void)
+esp_err_t init_ssd1306(void)
 {
-    i2c_new_master_bus(&i2c_master_bus_config, &i2c_master_bus);
-    i2c_ssd1306_init(i2c_master_bus, i2c_ssd1306_config, &i2c_ssd1306);
-    //i2c_ssd1306_buffer_image(&i2c_ssd1306, 32, 0, (const uint8_t *)ssd1306_logo, 64, 64, false);
-    //i2c_ssd1306_buffer_to_ram(&i2c_ssd1306);
+    esp_err_t ret = i2c_new_master_bus(&i2c_master_bus_config, &i2c_master_bus);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(SSD1306_TAG, "Failed to create I2C master bus");
+        return ret;
+    }
+
+    ret = i2c_ssd1306_init(i2c_master_bus, i2c_ssd1306_config, &i2c_ssd1306);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(SSD1306_TAG, "Failed to initialize SSD1306");
+        return ret;
+    }
+
+    // Give the panel time to settle before clearing the shadow buffer.
     vTaskDelay(1000 / portTICK_PERIOD_MS);
-    i2c_ssd1306_buffer_clear(&i2c_ssd1306);
+    ret = i2c_ssd1306_buffer_clear(&i2c_ssd1306);
+    if (ret == ESP_OK)
+    {
+        ssd1306_ready = true;
+    }
+
+    return ret;
 }
 
 esp_err_t ssd1306_print_str(uint8_t x, uint8_t y, const char *text, bool invert)
 {
+    if (!ssd1306_ready)
+        return ESP_ERR_INVALID_STATE;
+
     return (i2c_ssd1306_buffer_text(&i2c_ssd1306, x, y, text, invert));
 }
 esp_err_t ssd1306_clear(void)
 {
+    if (!ssd1306_ready)
+        return ESP_ERR_INVALID_STATE;
+
     return (i2c_ssd1306_buffer_clear(&i2c_ssd1306));
 }
 
 esp_err_t ssd1306_display(void)
 {
+    if (!ssd1306_ready)
+        return ESP_ERR_INVALID_STATE;
+
     return (i2c_ssd1306_buffer_to_ram(&i2c_ssd1306));
 }
 

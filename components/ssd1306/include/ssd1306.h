@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <driver/i2c_master.h>
 #include <esp_err.h>
 #include <esp_log.h>
@@ -60,7 +61,7 @@ typedef struct
 } i2c_ssd1306_handle_t;
 
 
-void init_ssd1306(void);
+esp_err_t init_ssd1306(void);
 esp_err_t ssd1306_print_str(uint8_t x, uint8_t y, const char *text, bool invert);
 esp_err_t ssd1306_clear(void);
 esp_err_t ssd1306_display(void);

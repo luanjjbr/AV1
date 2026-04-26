@@ -1,5 +1,5 @@
 #include "driver/gpio.h"
-#include "button.h"
+#include "Button.h"
 
 #define BOOT_BUTTON_PIN GPIO_NUM_4
 

@@ -2,14 +2,43 @@
   "configurations": [
     {
       "name": "ESP-IDF",
+      "configurationProvider": "espressif.esp-idf-extension",
       "compilerPath": "C:\\Espressif\\tools\\xtensa-esp-elf\\esp-15.2.0_20251204\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe",
-      "compileCommands": "${config:idf.buildPath}/compile_commands.json",
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/build/config",
+        "C:/esp/v6.0/esp-idf/components/**",
+        "C:/esp/v6.0/esp-idf/components/log/include",
+        "C:/esp/v6.0/esp-idf/components/esp_driver_ledc/include",
+        "C:/esp/v6.0/esp-idf/components/esp_driver_gpio/include",
+        "C:/esp/v6.0/esp-idf/components/esp_driver_i2c/include",
+        "C:/esp/v6.0/esp-idf/components/driver/i2c/include",
+        "C:/esp/v6.0/esp-idf/components/freertos/config/include",
+        "C:/esp/v6.0/esp-idf/components/freertos/config/include/freertos",
+        "C:/esp/v6.0/esp-idf/components/freertos/config/xtensa/include",
+        "C:/esp/v6.0/esp-idf/components/freertos/FreeRTOS-Kernel/include",
+        "C:/esp/v6.0/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include",
+        "C:/esp/v6.0/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos",
+        "C:/esp/v6.0/esp-idf/components/freertos/esp_additions/include",
+        "C:/esp/v6.0/esp-idf/components/esp_timer/include",
+        "C:/esp/v6.0/esp-idf/components/esp_common/include",
+        "C:/esp/v6.0/esp-idf/components/esp_system/include",
+        "C:/esp/v6.0/esp-idf/components/hal/include",
+        "C:/esp/v6.0/esp-idf/components/esp_rom/include",
+        "C:/esp/v6.0/esp-idf/components/soc/include",
+        "C:/esp/v6.0/esp-idf/components/soc/esp32/include"
       ],
+      "intelliSenseMode": "windows-gcc-x86",
+      "cStandard": "gnu23",
       "browse": {
         "path": [
-          "${workspaceFolder}"
+          "${workspaceFolder}",
+          "${workspaceFolder}/build/config",
+          "C:/esp/v6.0/esp-idf/components",
+          "C:/esp/v6.0/esp-idf/components/log/include",
+          "C:/esp/v6.0/esp-idf/components/esp_driver_ledc/include",
+          "C:/esp/v6.0/esp-idf/components/freertos/FreeRTOS-Kernel/include"
         ],
         "limitSymbolsToIncludedHeaders": true
       }

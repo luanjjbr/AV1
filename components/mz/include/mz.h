@@ -11,8 +11,10 @@ void config_item(int value_mz);
 void get_printf(void);
 void get_printf_2(void);
 void get_printf_3(void);
+float get_a(void);
 float get_ts(void);
 float get_y0(void);
+int get_model_item(void);
 void ram_sinc(void);
 
 #endif // SIN_H
